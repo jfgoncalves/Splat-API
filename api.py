@@ -74,7 +74,7 @@ def get_splatnet_schedule(splatnet_cookie):
 def write_schedule(u, pwd, region):
     splatnet_cookie = get_new_splatnet_cookie(u, pwd)
     dataI = get_splatnet_schedule(splatnet_cookie)
-    with open('schedule_'+region+'.json', 'w', encoding='utf-8') as outfile:
+    with open('YOUR/PATH/TO/FILE/schedule_'+region+'.json', 'w', encoding='utf-8') as outfile:
         json.dump(dataI, outfile, ensure_ascii=False)
     
 
