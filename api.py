@@ -47,13 +47,13 @@ def get_splatnet_schedule(splatnet_cookie):
     for rotation in schedule:
         
         #Clean names
-        rotation["start"] = rotation["datetime_begin"]
+        rotation["begin"] = rotation["datetime_begin"]
         del rotation["datetime_begin"]
         rotation["end"] = rotation["datetime_end"]
         del rotation["datetime_end"]
         
         if festival == False:
-            rotation["mode"] = rotation["gachi_rule"]
+            rotation["ranked_mode"] = rotation["gachi_rule"]
             del rotation["gachi_rule"]
             rotation["stages"]["ranked"] = rotation["stages"]["gachi"]
             del rotation["stages"]["gachi"]
