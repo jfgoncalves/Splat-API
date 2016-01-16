@@ -21,6 +21,31 @@ password_na = ''
 username_jp = ''
 password_jp = ''
 
+def get_english_name(name):
+    jp_dict = {
+    "アンチョビットゲームズ": "Ancho-V Games",
+    "アロワナモール": "Arowana Mall",
+    "Ｂバスパーク": "Blackbelly Skatepark",
+    "ネギトロ炭鉱": "Bluefin Depot",
+    "モンガラキャンプ場": "Camp Triggerfish",
+    "ヒラメが丘団地": "Flounder Heights",
+    "マサバ海峡大橋": "Hammerhead Bridge",
+    "モズク農園": "Kelp Dome",
+    "マヒマヒリゾート＆スパ": "Mahi-Mahi Resort",
+    "タチウオパーキング": "Moray Towers",
+    "キンメダイ美術館": "Museum d'Alfonsino",
+    "ショッツル鉱山": "Piranha Pit",
+    "ホッケふ頭": "Port Mackarel",
+    "シオノメ油田": "Saltspray Rigs",
+    "デカライン高架下": "Urchin Underpass",
+    "ハコフグ倉庫": "Walleye Warehouse",
+    "ガチエリア": "Splat Zones",
+    "ガチホコ": "Rainmaker",
+    "ガチヤグラ": "Tower Control"
+    }
+
+    return jp_dict[name]
+
 #based on https://github.com/Wiwiweb/SakuraiBot/blob/master/src/sakuraibot.py
 
 def get_new_splatnet_cookie(u, pwd):
@@ -62,6 +87,7 @@ def get_splatnet_schedule(splatnet_cookie):
             if festival == False:
                 rotation["ranked_mode"] = rotation["gachi_rule"]
                 del rotation["gachi_rule"]
+                rotation["ranked_modeEN"] = get_english_name(rotation["ranked_mode"])
                 rotation["stages"]["ranked"] = rotation["stages"]["gachi"]
                 del rotation["stages"]["gachi"]
 
@@ -70,11 +96,14 @@ def get_splatnet_schedule(splatnet_cookie):
 
                 for map in regular:
                     del map["asset_path"]
+                    map["nameEN"] = get_english_name(map["name"])
                 for map in ranked:
                     del map["asset_path"]
+                    map["nameEN"] = get_english_name(map["name"])
             else:
                 for map in rotation["stages"]:
                     del map["asset_path"]
+                    map["nameEN"] = get_english_name(map["name"])
     else:
         data = None
 
