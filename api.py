@@ -36,7 +36,7 @@ def get_english_name(name):
     "キンメダイ美術館": "Museum d'Alfonsino",
     "ショッツル鉱山": "Piranha Pit",
     "ホッケふ頭": "Port Mackarel",
-    "シオノメ油田": "Saltspray Rigs",
+    "シオノメ油田": "Saltspray Rig",
     "デカライン高架下": "Urchin Underpass",
     "ハコフグ倉庫": "Walleye Warehouse",
     "ガチエリア": "Splat Zones",
