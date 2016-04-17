@@ -35,7 +35,7 @@ def get_english_name(name):
     "タチウオパーキング": "Moray Towers",
     "キンメダイ美術館": "Museum d'Alfonsino",
     "ショッツル鉱山": "Piranha Pit",
-    "ホッケふ頭": "Port Mackarel",
+    "ホッケふ頭": "Port Mackerel",
     "シオノメ油田": "Saltspray Rig",
     "デカライン高架下": "Urchin Underpass",
     "ハコフグ倉庫": "Walleye Warehouse",
