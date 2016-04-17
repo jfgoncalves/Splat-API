@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Splatoon API is a free service that allows developers to create Splatoon apps without having to rely on a custom SplatNet login for each region. The feeds are updated every hour and handle Splatfests.">
+    <title>Splatoon API - a global API for Splatoon apps</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/railscasts.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/twemoji-awesome.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#" class="navbar-brand">
+            Splat API
+          </a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li><a href="http://splatapi.ovh/schedule_na.json" target="_blank">North America <i class="twa twa-lg twa-us"></i></a></li>
+            <li><a href="http://splatapi.ovh/schedule_eu.json" target="_blank">Europe/Oceania <i class="twa twa-lg twa-eu"></i></a></li>
+            <li><a href="http://splatapi.ovh/schedule_jp.json" target="_blank">Japan <i class="twa twa-lg twa-jp"></i></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><form action="https://www.paypal.com/cgi-bin/webscr" class="navbar-form" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="S6JP6HK8P42ZC">
+          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          </form></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li> <a href="https://github.com/jfgoncalves/Splat-API" target="_blank">Repo</a> </li>
+                <li> <a href="https://github.com/jfgoncalves/Splat-API/issues" target="_blank">Issues</a> </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header> -->
+    <!-- <div class="docs-header" id="content">
+      <div class="container">
+        <h1>Splat API</h1>
+        <p>Overview, how to use, and features.</p>
+      </div>
+    </div> -->
+    <div class="banner">
+      <div class="container">
+        <i class="twa twa-loudspeaker"></i> Splatoon API is powering <strong>my Google Chrome extension,
+          <a href="https://chrome.google.com/webstore/detail/splat-rotations/gafbbdopihfgddkhojbjfhdbckfkelka" target="_blank">Splat Rotations</a>
+        </strong>
+         - Be sure to check it out so you can stay updated on the current and future rotations!
+      </div>
+    </div>
+    <div class="container docs-container">
+      <div class="row">
+        <div class="col-xs-3">
+          <div class="sidebar affix-top">
+            <ul id="sidebar" class="nav nav-stacked">
+              <li>
+                <a href="#getting-started">Getting Started</a>
+              </li>
+              <li>
+                <a href="#struct-nor">Structure - Normal</a>
+                <ul class="nav nav-stacked">
+                  <li><a href="#festival">festival</a></li>
+                  <li><a href="#schedule">schedule</a></li>
+                  <li><a href="#rotation">rotation</a></li>
+                  <li><a href="#ranked_mode">ranked_mode</a></li>
+                  <li><a href="#ranked_modeEN">ranked_modeEN</a></li>
+                  <li><a href="#begin">begin</a></li>
+                  <li><a href="#end">end</a></li>
+                  <li><a href="#stages">stages</a></li>
+                  <li><a href="#ranreg">ranked/regular</a></li>
+                  <li><a href="#name">name</a></li>
+                  <li><a href="#nameEN">nameEN</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#struct-fes">Structure - Splatfest</a>
+                <ul class="nav nav-stacked">
+                  <li><a href="#festival-fes">festival</a></li>
+                  <li><a href="#alpha">team_alpha_name</a></li>
+                  <li><a href="#bravo">team_bravo_name</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#how">How to use</a>
+                <ul class="nav nav-stacked">
+                  <li><a href="#call">Calling the JSON</a></li>
+                  <li><a href="#get">Get some data</a></li>
+                  <li><a href="#if">Splatfest condition</a></li>
+                  <li><a href="#i18n">Multi lang</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9" role="main">
+          <div class="panel docs-content">
+            <div class="docs-section">
+              <div class="page-header">
+                <h1 class="docs-heading">Getting Started<span class="anchor-target" id="getting-started"></span>
+                  <a href="#getting-started" name="getting-started" class="anchor glyphicon glyphicon-link"></a>
+                </h1>
+              </div>
+              <p>Splatoon API is a free service that allows developers to create Splatoon apps without having to rely on a custom SplatNet login. The feeds are updated every hour and handle Splatfests.</p>
+              <p>3 feeds are available, one for each Wii U region (USA, Europe, Japan). Feeds are in <strong>JSON</strong> format.</p>
+              <p>The SplatNet feed takes a couple of minutes before updating after a rotation, so the end feed will also be delayed for a couple of minutes (usually 2 to 4 minutes).</p>
+              <p><strong>Feeds:</strong></p>
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="http://splatapi.ovh/schedule_na.json" target="_blank">
+                    <div class="feed-column">
+                      <i class="twa twa-4x twa-us"></i><p>North America</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="http://splatapi.ovh/schedule_eu.json" target="_blank">
+                    <div class="feed-column">
+                      <i class="twa twa-4x twa-eu"></i><p>Europe/Oceania</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="http://splatapi.ovh/schedule_jp.json" target="_blank">
+                    <div class="feed-column">
+                      <i class="twa twa-4x twa-jp"></i><p>Japan</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="docs-section">
+              <div class="page-header">
+                <h1 class="docs-heading">Structure - Normal<span class="anchor-target" id="struct-nor"></span>
+                  <a href="#struct-nor" name="struct-nor" class="anchor glyphicon glyphicon-link"></a>
+                </h1>
+              </div>
+              <strong>Each JSON have the following structure:</strong>
+              <pre>
+<code class="lang-md">festival
+schedule
+  |-- rotation 0
+      |-- ranked_mode
+      |-- ranked_modeEN
+      |-- begin
+      |-- end
+      |-- stages
+          |-- regular
+              |-- stage 0
+                  |-- name
+                  |-- nameEN
+              |-- stage 1
+                  |-- name
+                  |-- nameEN
+          |-- ranked
+              |-- stage 0
+                  |-- name
+                  |-- nameEN
+              |-- stage 1
+                  |-- name
+                  |-- nameEN
+  |-- rotation 1
+  |-- rotation 2
+</code></pre></div>
+
+              <h3 class="docs-heading">festival<span class="anchor-target" id="festival"></span>
+                <a href="#festival" name="festival" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-primary">Boolean</span>
+              <p>Indicates if a current Splatfest is occuring.</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">{
+    "festival": false,
+}</code></pre>
+
+              <h3 class="docs-heading">schedule<span class="anchor-target" id="schedule"></span>
+                <a href="#schedule" name="schedule" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-default">Object</span>
+              <p>Contains the 3 rotations served by Splatnet.</p>
+              <strong>Code example:</strong>
+              <pre><code>{
+    "schedule": [
+        {
+            rotation0
+        },
+        {
+            rotation1
+        },
+        {
+            rotation2
+        }
+    ]
+}</code></pre>
+
+              <h3 class="docs-heading">rotation<span class="anchor-target" id="rotation"></span>
+                <a href="#rotation" name="rotation" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-default">Object</span>
+              <p>Contains all the information for a given rotation. There are 3 "rotation" objects in the "schedule" object, being 0, 1 and 2.</p>
+
+              <h3 class="docs-heading">ranked_mode<span class="anchor-target" id="ranked_mode"></span>
+                <a href="#ranked_mode" name="ranked_mode" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the Ranked mode for the given rotation (in Japanese).</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"ranked_mode": "ガチホコ",</code></pre>
+
+              <h3 class="docs-heading">ranked_modeEN<span class="anchor-target" id="ranked_modeEN"></span>
+                <a href="#ranked_modeEN" name="ranked_modeEN" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the Ranked mode for the given rotation (in English).</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"ranked_modeEN": "Rainmaker",</code></pre>
+
+              <h3 class="docs-heading">begin<span class="anchor-target" id="begin"></span>
+                <a href="#begin" name="begin" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the starting date/time for the given rotation following the ISO 8601 norm.</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"begin": "2016-04-11T19:00:00.000+09:00",</code></pre>
+
+              <h3 class="docs-heading">end<span class="anchor-target" id="end"></span>
+                <a href="#end" name="end" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the ending date/time for the given rotation following the ISO 8601 norm.</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"end": "2016-04-11T23:00:00.000+09:00",</code></pre>
+
+              <h3 class="docs-heading">stages<span class="anchor-target" id="stages"></span>
+                <a href="#stages" name="stages" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-default">Object</span>
+              <p>Contains 2 objects, "regular" and "ranked".</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"stages": {
+    "ranked": [
+      {
+          ranked0
+      },
+      {
+          ranked1
+      }
+    ],
+    "regular": [
+        {
+            regular0
+        },
+        {
+            regular1
+        }
+    ]
+},</code></pre>
+
+              <h3 class="docs-heading">ranked/regular<span class="anchor-target" id="ranreg"></span>
+                <a href="#ranreg" name="ranreg" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-default">Object</span>
+              <p>Contains 2 objects corresponding to the first and second stage for each mode.</p>
+
+              <h3 class="docs-heading">name<span class="anchor-target" id="name"></span>
+                <a href="#name" name="name" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the stage name for the given mode (in Japanese).</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"name": "タチウオパーキング",</code></pre>
+
+              <h3 class="docs-heading">nameEN<span class="anchor-target" id="nameEN"></span>
+                <a href="#nameEN" name="nameEN" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the stage name for the given mode (in English).</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"nameEN": "Moray Towers",</code></pre>
+
+              <div class="page-header">
+                <h1 class="docs-heading">Structure - Splatfest<span class="anchor-target" id="struct-fes"></span>
+                  <a href="#struct-fes" name="struct-fes" class="anchor glyphicon glyphicon-link"></a>
+                </h1>
+              </div>
+              <p>To ease the development and not wait 3 or 5 weeks for a next Splatfest, you can use <a href="http://splatapi.ovh/fes_example.json" target="_blank">this archived feed <i class="twa twa-fireworks"></i> </a> to adapt your code for Splatfest situations.</p>
+              <strong>During Splatfest, the JSON changes to look like this:</strong>
+              <pre>
+<code class="lang-md">festival
+schedule
+  |-- rotation 0
+      |-- team_alpha_name
+      |-- team_bravo_name
+      |-- begin
+      |-- end
+      |-- stages
+          |-- stage 0
+              |-- name
+              |-- nameEN
+          |-- stage 1
+              |-- name
+              |-- nameEN
+          |-- stage 2
+              |-- name
+              |-- nameEN
+</code></pre>
+
+              <h3 class="docs-heading">festival<span class="anchor-target" id="festival-fes"></span>
+                <a href="#festival-fes" name="festival-fes" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-primary">Boolean</span>
+              <p>Indicates if a current Splatfest is occuring.</p>
+              <strong>Code example:</strong>
+<pre><code class="lang-json">{
+"festival": true,
+}</code></pre>
+
+              <h3 class="docs-heading">team_alpha_name<span class="anchor-target" id="alpha"></span>
+                <a href="#alpha" name="alpha" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the name of the first team fighting during the Splatfest.</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"team_alpha_name": "Burger",</code></pre>
+
+              <h3 class="docs-heading">team_bravo_name<span class="anchor-target" id="bravo"></span>
+                <a href="#bravo" name="bravo" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <span class="label label-success">String</span>
+              <p>Gives the name of the second team fighting during the Splatfest.</p>
+              <strong>Code example:</strong>
+              <pre><code class="lang-json">"team_bravo_name": "Pizza",</code></pre>
+
+              <div class="page-header">
+                <h1 class="docs-heading">How to use<span class="anchor-target" id="how"></span>
+                  <a href="#how" name="how" class="anchor glyphicon glyphicon-link"></a>
+                </h1>
+              </div>
+
+              <h3 class="docs-heading">Calling the JSON<span class="anchor-target" id="call"></span>
+                <a href="#call" name="call" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <p>Here are different ways to call the JSON.</p>
+              <strong>Python 3 (Requests):</strong>
+              <pre><code class="lang-python">def get_schedule():
+  response = requests.get('http://splatapi.ovh/schedule_xyz.json')
+  data = response.json()
+  return data
+
+rotations = get_schedule()</code></pre>
+            <strong>JavaScript:</strong>
+            <pre><code class="lang-js">function get_schedule() {
+
+  var AJAX_req, json;
+
+  AJAX_req = new XMLHttpRequest();
+  AJAX_req.open('GET', 'http://splatapi.ovh/schedule_xyz.json', true);
+  AJAX_req.setRequestHeader('Content-type', 'application/json');
+
+  AJAX_req.onreadystatechange = function() {
+    if (AJAX_req.readyState == 4 && AJAX_req.status == 200) {
+      json = JSON.parse(AJAX_req.responseText);
+      parse(json);
+    }
+  };
+
+  AJAX_req.send(null);
+}
+
+function parse(json) {
+  var rotations = json;
+}
+
+get_schedule();
+</code></pre>
+              <h3 class="docs-heading">Get some data<span class="anchor-target" id="get"></span>
+                <a href="#get" name="get" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <p>Let's try to get the ranked mode of the 2<sup>nd</sup> rotation and the name of the its stage in ranked :</p>
+              <strong>Python 3:</strong>
+              <pre><code class="lang-python">rotations = get_schedule()
+schedule = rotations['schedule']
+mode = schedule[1]['ranked_modeEN']
+stage = schedule[1]['stages']['ranked'][1]['nameEN']</code></pre>
+
+              <strong>JavaScript:</strong>
+              <pre><code class="lang-js">var rotations = json;
+var schedule = rotations.schedule;
+var mode = schedule[1].ranked_modeEN;
+var stage = schedule[1].stages.ranked[1].nameEN;</code></pre>
+
+              <h3 class="docs-heading">Splatfest condition<span class="anchor-target" id="if"></span>
+                <a href="#if" name="if" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <p>Execute code if there is a Splatfest.</p>
+              <strong>Python 3:</strong>
+              <pre><code class="lang-python">if rotations['festival'] == True:
+  # Execute your code
+</code></pre>
+
+              <strong>JavaScript:</strong>
+              <pre><code class="lang-js">if (rotations.festival === true) {
+  // Execute your code
+}</code></pre>
+
+              <h3 class="docs-heading">Multi lang<span class="anchor-target" id="i18n"></span>
+                <a href="#i18n" name="i18n" class="anchor glyphicon glyphicon-link"></a>
+              </h3>
+              <p>Translate map name to another language. Using Japanese as base is preferred so you don't have to stumble with special characters like <code>Museum d'Alfonsino</code> or <code>Mahi-Mahi Resort</code>.</p>
+              <strong>Python 3:</strong>
+              <pre><code class="lang-python">def getDeutchName(name):
+  jp_dict = {
+    "アンチョビットゲームズ": "Anchobit Games HQ",
+    "アロワナモール": "Arowana-Center",
+    "Ｂバスパーク": "Punkasius-Skatepark",
+    "ガチホコ": "Operation Goldfisch",
+    "ガチヤグラ": "Turm-Kommando"
+  }
+  return jp_dict[name]
+
+getDeutchName(schedule[0]['stages']['regular'][0]['name'])</code></pre>
+              <strong>JavaScript:</strong>
+              <pre><code class="lang-js">function getDeutchName(name) {
+  var jp_dict = {
+    "アンチョビットゲームズ": "Anchobit Games HQ",
+    "アロワナモール": "Arowana-Center",
+    "Ｂバスパーク": "Punkasius-Skatepark",
+    "ガチホコ": "Operation Goldfisch",
+    "ガチヤグラ": "Turm-Kommando"
+  };
+  return jp_dict[name];
+}
+
+getDeutchName(schedule[0].stages.regular[0].name);</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="container">
+        Made in <i class="twa twa-snake"></i> Python with <i class="twa twa-heart"></i> by <a href="https://twitter.com/PommePatate" target="_blank">@PommePatate</a> - <a href="https://github.com/jfgoncalves/splat-API" target="_blank">Github</a> - Stay Fresh くコ:彡
+      </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/highlight.pack.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
