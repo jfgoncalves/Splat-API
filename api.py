@@ -55,7 +55,13 @@ def get_new_splatnet_cookie(u, pwd):
                   'username': u,
                   'password': pwd}
 
+    #Nintendo being slow at updating their SSL cert on the backend, trying to fetch their json might fail once on a year. add verify=False to the request parameters to ignore the SSL cert and force the fetch regardless...
+
+    #Comment this if the SSL cert on Nintendo's AWS has expired.
     response = requests.post(NINTENDO_LOGIN_PAGE, data=parameters)
+
+    #UNcomment this if the SSL cert on Nintendo's AWS has expired.
+    #response = requests.post(NINTENDO_LOGIN_PAGE, data=parameters, verify=False)
 
     cookie = response.history[-1].cookies.get('_wag_session')
     if cookie is None:
