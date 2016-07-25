@@ -356,7 +356,7 @@ schedule
                 <a href="#call" name="call" class="anchor glyphicon glyphicon-link"></a>
               </h3>
               <p>Here are different ways to call the JSON.</p>
-              <strong>Python 3 (Requests):</strong>
+              <strong>Python (Requests):</strong>
               <pre><code class="lang-python">def get_schedule():
   response = requests.get('http://splatapi.ovh/schedule_xyz.json')
   data = response.json()
@@ -392,7 +392,7 @@ get_schedule();
                 <a href="#get" name="get" class="anchor glyphicon glyphicon-link"></a>
               </h3>
               <p>Let's try to get the ranked mode of the 2<sup>nd</sup> rotation and the name of the its stage in ranked :</p>
-              <strong>Python 3:</strong>
+              <strong>Python:</strong>
               <pre><code class="lang-python">rotations = get_schedule()
 schedule = rotations['schedule']
 mode = schedule[1]['ranked_modeEN']
@@ -408,7 +408,7 @@ var stage = schedule[1].stages.ranked[1].nameEN;</code></pre>
                 <a href="#if" name="if" class="anchor glyphicon glyphicon-link"></a>
               </h3>
               <p>Execute code if there is a Splatfest.</p>
-              <strong>Python 3:</strong>
+              <strong>Python:</strong>
               <pre><code class="lang-python">if rotations['festival'] == True:
   # Execute your code
 </code></pre>
@@ -422,7 +422,7 @@ var stage = schedule[1].stages.ranked[1].nameEN;</code></pre>
                 <a href="#i18n" name="i18n" class="anchor glyphicon glyphicon-link"></a>
               </h3>
               <p>Translate map name to another language. Using Japanese as base is preferred so you don't have to stumble with special characters like <code>Museum d'Alfonsino</code> or <code>Mahi-Mahi Resort</code>.</p>
-              <strong>Python 3:</strong>
+              <strong>Python:</strong>
               <pre><code class="lang-python">def getDeutchName(name):
   jp_dict = {
     "アンチョビットゲームズ": "Anchobit Games HQ",
@@ -454,7 +454,7 @@ getDeutchName(schedule[0].stages.regular[0].name);</code></pre>
     </div>
     <footer>
       <div class="container">
-        Made in <i class="twa twa-snake"></i> Python with <i class="twa twa-heart"></i> by <a href="https://twitter.com/PommePatate" target="_blank">@PommePatate</a> - <a href="https://github.com/jfgoncalves/splat-API" target="_blank">Github</a> - Stay Fresh くコ:彡
+        Made in <i class="twa twa-snake"></i> Python with <i class="twa twa-heart"></i> by <a href="https://twitter.com/PommePatate" target="_blank">Jeff</a> - <a href="https://github.com/jfgoncalves/splat-API" target="_blank">Github</a> - Stay Fresh くコ:彡
       </div>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
